@@ -25,6 +25,7 @@ ADD conf/etc/apache2/sites-available/apache2-graphite.conf /etc/apache2/sites-av
 ADD http://grafanarel.s3.amazonaws.com/grafana-1.6.1.tar.gz /tmp/
 RUN tar xzf /tmp/grafana-1.6.1.tar.gz -C /var/www/
 RUN ln -s /var/www/grafana-1.6.1 /var/www/grafana
+ADD conf/var/www/grafana/config.js /var/www/grafana/config.js
 
 RUN a2ensite apache2-graphite
 

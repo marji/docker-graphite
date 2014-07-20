@@ -5,7 +5,7 @@
  ///
 define(['settings'],
 function (Settings) {
-  
+
 
   return new Settings({
 
@@ -13,14 +13,8 @@ function (Settings) {
     datasources: {
       graphite: {
         type: 'graphite',
-        url: "http://my.graphite.server.com:8080",
+        url: "http://"+window.location.hostname+":80",
         default: true
-      },
-      influxdb: {
-        type: 'influxdb',
-        url: "http://my_influxdb_server:8086/db/database_name",
-        username: 'admin',
-        password: 'admin'
       },
     },
 
@@ -45,7 +39,7 @@ function (Settings) {
     // Example:
     //   If TIME_ZONE is set to UTC, set this to "0000"
     //
-    timezoneOffset: null,
+    timezoneOffset: "1000",
 
     // set to false to disable unsaved changes warning
     unsaved_changes_warning: true,
