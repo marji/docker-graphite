@@ -22,6 +22,10 @@ RUN a2dissite 000-default
 # Added "Alias /grafana /var/www/grafana" to /usr/share/graphite-web/apache2-graphite.conf
 ADD conf/etc/apache2/sites-available/apache2-graphite.conf /etc/apache2/sites-available/apache2-graphite.conf
 
+ADD http://grafanarel.s3.amazonaws.com/grafana-1.6.1.tar.gz /tmp/
+RUN tar xzf /tmp/grafana-1.6.1.tar.gz -C /var/www/
+RUN ln -s /var/www/grafana-1.6.1 /var/www/grafana
+
 RUN a2ensite apache2-graphite
 
 RUN chown _graphite:_graphite /var/lib/graphite
