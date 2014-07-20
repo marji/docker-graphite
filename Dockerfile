@@ -18,7 +18,10 @@ ADD conf/etc/carbon/storage-schemas.conf /etc/carbon/storage-schemas.conf
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 libapache2-mod-wsgi
 RUN a2dissite 000-default
-RUN cp /usr/share/graphite-web/apache2-graphite.conf /etc/apache2/sites-available/
+
+# Added "Alias /grafana /var/www/grafana" to /usr/share/graphite-web/apache2-graphite.conf
+ADD conf/etc/apache2/sites-available/apache2-graphite.conf /etc/apache2/sites-available/apache2-graphite.conf
+
 RUN a2ensite apache2-graphite
 
 RUN chown _graphite:_graphite /var/lib/graphite
