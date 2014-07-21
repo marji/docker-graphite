@@ -48,5 +48,5 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y collectd
 ADD conf/etc/collectd/collectd.conf /etc/collectd/collectd.conf
 
-EXPOSE 22
+EXPOSE 22 2003
 CMD ["/usr/bin/supervisord"]
