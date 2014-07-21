@@ -1,8 +1,13 @@
 FROM ubuntu:14.04
 MAINTAINER marji@morpht.com
 
+# add elasticsearch repo before apt-get update:
+ADD http://packages.elasticsearch.org/GPG-KEY-elasticsearch /tmp/
+RUN apt-key add /tmp/GPG-KEY-elasticsearch
+RUN echo 'deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main' > /etc/apt/sources.list.d/elasticsearch.list
+
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphite-web graphite-carbon openssh-server supervisor
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphite-web graphite-carbon openssh-server supervisor elasticsearch
 
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /var/log/supervisor
@@ -19,7 +24,6 @@ ADD conf/etc/carbon/storage-schemas.conf /etc/carbon/storage-schemas.conf
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 libapache2-mod-wsgi
 RUN a2dissite 000-default
 
-# Added "Alias /grafana /var/www/grafana" to /usr/share/graphite-web/apache2-graphite.conf
 ADD conf/etc/apache2/sites-available/apache2-graphite.conf /etc/apache2/sites-available/apache2-graphite.conf
 
 ADD http://grafanarel.s3.amazonaws.com/grafana-1.6.1.tar.gz /tmp/
@@ -27,6 +31,7 @@ RUN tar xzf /tmp/grafana-1.6.1.tar.gz -C /var/www/
 RUN ln -s /var/www/grafana-1.6.1 /var/www/grafana
 ADD conf/var/www/grafana/config.js /var/www/grafana/config.js
 
+RUN a2enmod proxy_http
 RUN a2ensite apache2-graphite
 
 RUN chown _graphite:_graphite /var/lib/graphite

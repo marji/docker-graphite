@@ -21,7 +21,10 @@ function (Settings) {
     // elasticsearch url
     // used for storing and loading dashboards, optional
     // For Basic authentication use: http://username:password@domain.com:9200
-    elasticsearch: "http://"+window.location.hostname+":9200",
+    //
+    // We expose elasticsearch on the same FQDN as the graphite app,
+    // the webserver can use the '/elasticsearch' path to proxy to the real endpoint:
+    elasticsearch: "http://"+window.location.hostname+":80/elasticsearch",
 
     // default start dashboard
     default_route: '/dashboard/file/default.json',
