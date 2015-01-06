@@ -3,7 +3,7 @@
 // must be set before Grafana is run for the first time.
 
 define(['settings'], function(Settings) {
-  
+
 
   return new Settings({
 
@@ -36,20 +36,21 @@ define(['settings'], function(Settings) {
       */
 
       // Graphite & Elasticsearch example setup
-      /*
       datasources: {
         graphite: {
           type: 'graphite',
-          url: "http://my.graphite.server.com:8080",
+          url: "http://"+window.location.hostname+":80",
+          default: true,
         },
         elasticsearch: {
           type: 'elasticsearch',
-          url: "http://my.elastic.server.com:9200",
+          // We expose elasticsearch on the same FQDN as the graphite app,
+          // the webserver can use the '/elasticsearch' path to proxy to the real endpoint:
+          url: "http://"+window.location.hostname+":80/elasticsearch",
           index: 'grafana-dash',
           grafanaDB: true,
         }
       },
-      */
 
       // OpenTSDB & Elasticsearch example setup
       /*
