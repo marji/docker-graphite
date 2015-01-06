@@ -7,7 +7,9 @@ RUN apt-key add /tmp/GPG-KEY-elasticsearch
 RUN echo 'deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main' > /etc/apt/sources.list.d/elasticsearch.list
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphite-web graphite-carbon openssh-server supervisor elasticsearch
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphite-web graphite-carbon openssh-server supervisor elasticsearch apache2 libapache2-mod-wsgi 
+# collectd:
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y collectd
 
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /var/log/supervisor
@@ -21,7 +23,6 @@ ADD conf/etc/carbon/carbon.conf /etc/carbon/carbon.conf
 ADD conf/etc/carbon/storage-aggregation.conf /etc/carbon/storage-aggregation.conf
 ADD conf/etc/carbon/storage-schemas.conf /etc/carbon/storage-schemas.conf
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 libapache2-mod-wsgi
 RUN a2dissite 000-default
 
 ADD conf/etc/apache2/sites-available/apache2-graphite.conf /etc/apache2/sites-available/apache2-graphite.conf
@@ -44,8 +45,6 @@ ADD id_rsa.pub /root/.ssh/authorized_keys
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# collectd:
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y collectd
 ADD conf/etc/collectd/collectd.conf /etc/collectd/collectd.conf
 
 EXPOSE 22 2003
