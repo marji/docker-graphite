@@ -7,7 +7,7 @@ RUN apt-key add /tmp/GPG-KEY-elasticsearch
 RUN echo 'deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main' > /etc/apt/sources.list.d/elasticsearch.list
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphite-web graphite-carbon openssh-server supervisor elasticsearch apache2 libapache2-mod-wsgi 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphite-web graphite-carbon openssh-server supervisor elasticsearch apache2 libapache2-mod-wsgi
 # collectd:
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y collectd
 
@@ -47,5 +47,5 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ADD conf/etc/collectd/collectd.conf /etc/collectd/collectd.conf
 
-EXPOSE 22 2003
+EXPOSE 22 2003 80 9200
 CMD ["/usr/bin/supervisord"]
